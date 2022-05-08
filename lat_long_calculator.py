@@ -4,13 +4,11 @@ import tkinter as tk
 from math import cos, pi
 
 
-
 root = Tk()
-root.title("")
+root.title("Object Coordinate from Reference Coordinate by Distance (OCRCD) Calculator")
 frm = ttk.Frame(root, padding=50)
 frm.grid()
 txt = Text(root)
-
 
 ref_lat_input = tk.StringVar()
 ref_lon_input = tk.StringVar()
@@ -24,15 +22,16 @@ def calc():
     obj_lat = obj_lat_dist_input.get()
     obj_lon = obj_lon_dist_input.get()
 
+    lat_len = 100.771044346 + ((float(ref_lat)/90) * 0.60431952235)
+
     global final_lat
-    final_lat = ((float(obj_lat)/101)/3600) + float(ref_lat)
-    long_ref = ((cos(final_lat * pi/180.0 ) * 24902.0/360.0) * 5280)/3600
+    final_lat = ((float(obj_lat)/lat_len)/3600) + float(ref_lat)
+    long_ref = ((cos(final_lat * (pi/180.0)) * 24902.0/360.0) * 5280)/3600
     global final_lon
     final_lon = ((float(obj_lon)/long_ref)/3600) + float(ref_lon)
 
-    out_lat = ttk.Label(frm, text="Object latitude: " + str(final_lat)).grid(column=1, row=9)
-    out_lon = ttk.Label(frm, text="Object Longitude: " + str(final_lon)).grid(column=1, row=10)
-
+    out_lat = ttk.Label(frm, text="Final Latitude: " + str(final_lat)).grid(column=1, row=9)
+    out_lon = ttk.Label(frm, text="Final Longitude: " + str(final_lon)).grid(column=1, row=10)
 
 
 def copy():
@@ -41,9 +40,8 @@ def copy():
     root.update()
 
 
-
 #HEADER
-ttk.Label(frm, text="Latitude/Longitude Calculator", justify=CENTER, font=100).grid(column=0, row=0)
+ttk.Label(frm, text="OCRCD Calculator", justify=CENTER, font=100).grid(column=0, row=0)
 
 #GAP
 ttk.Label(frm, text="").grid(column=0, row=1)
